@@ -58,7 +58,9 @@
                         omega: omega,
                         omegap: omegap,
                         Oplus: Oplus,
-                        Omulti: Omulti
+                        Omulti: Omulti,
+                        superupgrade: superupgrade,
+                        superupgradecost: superupgradecost
 
                     };
                     localStorage.setItem("gameSave", JSON.stringify(gameSave));
@@ -74,6 +76,8 @@
                     if (typeof savedGame.omegap !== "undefined") omegap = savedGame.omegap;  
                     if (typeof savedGame.Oplus !== "undefined") Oplus = savedGame.Oplus;  
                     if (typeof savedGame.Omulti !== "undefined") Omulti = savedGame.Omulti;  
+                    if (typeof savedGame.superupgrade !== "undefined") superupgrade = savedGame.superupgrade;  
+                    if (typeof savedGame.superupgradecost !== "undefined") superupgrade = savedGame.superupgradecost;  
                 }
 
                 window.onload = function() {
