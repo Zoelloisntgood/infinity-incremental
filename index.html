@@ -1,0 +1,142 @@
+<!DOCTYPE = html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1.0">
+        <title>Infinity incremental</title>
+        <link rel="icon" href="Infincremental.png" type="image/x-icon">
+    </head>
+    <body style="background-color: black; color: #ffffff;">
+        <script>
+
+            // Variables
+
+            let points = 0;
+            let rpoints = 0;
+            var upgrade = 0;
+            var upgradecost = 1000000;
+            let omegap = "";
+            let Oplus = "";
+            let Omulti = "";
+            let omega = 1;
+            var superupgrade = 1;
+            var superupgradecost = 10;
+
+            // Functions
+
+            function buyUpgrade2() {
+                if (Omulti >= superupgradecost) {
+                    omega -= superupgradecost;
+                    superupgrade += 1;
+                    superupgradecost += 1;
+                    document.getElementById("Omulti").innerHTML = omega;
+                    document.getElementById("superupgrade").innerHTML = superupgrade;
+                    document.getElementById("superupgradecost").innerHTML = superupgradecost;
+
+                }
+            }
+
+            function buyUpgrade1() {
+                if (points >= upgradecost) {
+                    points -= upgradecost;
+                    upgrade += 1;
+                    upgradecost *= 3;
+                    document.getElementById("points").innerHTML = points;
+                    document.getElementById("upgrade").innerHTML = upgrade;
+                    document.getElementById("upgradecost").innerHTML = upgradecost;
+
+                }
+            }
+
+            function saveGame() {
+                    var gameSave = {
+                        points: points,
+                        rpoints: rpoints,
+                        upgrade: upgrade,
+                        upgradecost: upgradecost,
+                        omega: omega,
+                        omegap: omegap,
+                        Oplus: Oplus,
+                        Omulti: Omulti
+
+                    };
+                    localStorage.setItem("gameSave", JSON.stringify(gameSave));
+            }
+
+            function loadGame() {
+                    var savedGame = JSON.parse(localStorage.getItem("gameSave"));
+                    if (typeof savedGame.points !== "undefined") points = savedGame.points;
+                    if (typeof savedGame.rpoints !== "undefined") rpoints = savedGame.rpoints;  
+                    if (typeof savedGame.upgrade !== "undefined") upgrade = savedGame.upgrade; 
+                    if (typeof savedGame.upgradecost !== "undefined") upgradecost = savedGame.upgradecost;  
+                    if (typeof savedGame.omega !== "undefined") omega = savedGame.omega;  
+                    if (typeof savedGame.omegap !== "undefined") omegap = savedGame.omegap;  
+                    if (typeof savedGame.Oplus !== "undefined") Oplus = savedGame.Oplus;  
+                    if (typeof savedGame.Omulti !== "undefined") Omulti = savedGame.Omulti;  
+                }
+
+                window.onload = function() {
+                    loadGame();
+                };
+
+                // Loops
+
+            setInterval(function() {
+                if (omega > 2) {
+                    Omulti = omega;
+                    document.getElementById("Omulti").innerHTML = Omulti;
+                }
+            }, 1);
+            setInterval(function() {
+                if (omega == 2) {
+                    Omulti = 2;
+                    document.getElementById("Omulti").innerHTML = Omulti;
+                }
+            }, 1);
+            setInterval(function() {
+             if (points == Infinity) {
+                  let omegap = "ω";
+                  let Oplus = " + ";
+                   omega += 1;
+                   points = 0;
+                   document.getElementById("points").innerHTML = points;
+                   document.getElementById("omegap").innerHTML = omegap;
+                   document.getElementById("Oplus").innerHTML = Oplus;
+                   document.getElementById("omega").innerHTML = omega;
+                  }
+             }, 1);
+            setInterval(function() {
+                points += Math.floor(points / (100 / (upgrade + 1)) + 1);
+                document.getElementById("points").innerHTML = points;
+            },50);
+            setInterval(function() {
+                upgrade += superupgrade;
+                document.getElementById("upgrade").innerHTML = upgrade;
+            },10);
+            setInterval(function() {
+                var rpoints = Math.floor(points / (100 / (upgrade + 1)) + 1);
+                document.getElementById("rpoints").innerHTML = rpoints;
+            },10);
+            setInterval(function() {
+                saveGame();
+            },5000);
+        </script>
+        <div style="text-align: center; font-family: sans-serif; font-size: 200%;">
+            <h1>Points: <span id="omegap"></span><span id="Omulti"></span><span id="Oplus"></span><span id="points">0</span></h1>
+            <p>(<span id="rpoints">0</span> points/s)</p>
+            <p style="color: red;">You have <span id="upgrade">0</span> upgrade(s)</p>
+            <p style="color: rgb(200,0,0);">(<span id="superupgrade">0</span> upgrade/cs)</p>
+            <button onclick=buyUpgrade1() style="height: 10%; width: initial; font-size: 17px; border-radius: 20px; background-color: red; border-color: white;">
+                Increase Points/s
+                <br>
+                Cost: <span id="upgradecost">1000000</span> Points
+            </button>
+            <button onclick=buyUpgrade2() style="height: 10%; width: initial; font-size: 17px; border-radius: 20px; background-color: rgb(200, 0, 0); border-color: white;">
+                +1 Upgrade/cs
+                <br>
+                Cost: ω<span id="superupgradecost">10</span> Points
+            </button>
+        </div>
+    </body>
+</html>
